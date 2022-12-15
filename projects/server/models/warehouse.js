@@ -1,7 +1,7 @@
-"use strict";
-const { Model } = require("sequelize");
-const product = require("./product");
-const stock_mutation = require("./stock_mutation");
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Warehouse extends Model {
     /**
@@ -11,27 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Warehouse.belongsTo(user);
-      Warehouse.hasMany(stock_mutation, {
-        foreignKey: "IdWarehouse",
-      });
-      Warehouse.belongsToMany(product, { through: "Product_Warehouse" });
+      Warehouse.belongsTo(models.User);
+      Warehouse.hasMany(models.Stock_Mutation);
+      Warehouse.belongsToMany(models.Product, { through: "Product_Warehouses" });
     }
   }
-  Warehouse.init(
-    {
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      name: DataTypes.STRING,
-      picture: DataTypes.STRING,
-      gender: DataTypes.STRING,
-      isVerified: DataTypes.BOOLEAN,
-      role: DataTypes.INTEGER,
-    },
-    {
-      sequelize,
-      modelName: "Warehouse",
-    }
-  );
+  Warehouse.init({
+    warehouse_name: DataTypes.STRING,
+    province: DataTypes.STRING,
+    city: DataTypes.STRING,
+    postal_code: DataTypes.INTEGER
+  }, {
+    sequelize,
+    modelName: 'Warehouse',
+  });
   return Warehouse;
 };

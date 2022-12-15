@@ -1,9 +1,7 @@
-"use strict";
-const { Model } = require("sequelize");
-const cart = require("./cart");
-const journal = require("./journal");
-const product_image = require("./product_image");
-const stock_mutation = require("./stock_mutation");
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     /**
@@ -13,33 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Product.hasMany(product_image, {
-        foreignKey: "IdProduct",
-      });
-      Product.hasMany(cart, {
-        foreignKey: "IdProduct",
-      });
-      Product.hasMany(journal, {
-        foreignKey: "IdProduct",
-      });
-      Product.hasOne(stock_mutation, {
-        foreignKey: "IdProduct",
-      });
-      Product.belongsToMany(stock_mutation, { through: "Product_Warehouse" });
+      Product.hasMany(models.Product_Image);
+      Product.hasMany(models.Cart);
+      Product.hasMany(models.Journal);
+      Product.hasOne(models.Stock_Mutation);
+      Product.belongsToMany(models.Warehouse, { through: "Product_Warehouses" });
     }
   }
-  Product.init(
-    {
-      Name: DataTypes.STRING,
-      Description: DataTypes.STRING,
-      Price: DataTypes.INTEGER,
-      Weight: DataTypes.INTEGER,
-      Category: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: "Product",
-    }
-  );
+  Product.init({
+    name: DataTypes.STRING,
+    desc: DataTypes.STRING,
+    price: DataTypes.INTEGER,
+    weight: DataTypes.INTEGER,
+    category: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Product',
+  });
   return Product;
 };
