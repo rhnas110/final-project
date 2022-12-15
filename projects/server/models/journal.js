@@ -1,36 +1,28 @@
-"use strict";
-const { Model } = require("sequelize");
-const journal_type = require("./journal_type");
-const product = require("./product");
-const stock_mutation = require("./stock_mutation");
-const transactions = require("./transactions");
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Journal extends Model {
+  class journal extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      Journal.hasOne(transactions, {
-        foreignKey: "IdJournal",
-      });
-      Journal.belongsTo(journal_type)
-      Journal.belongsTo(stock_mutation)
-      Journal.belongsTo(product)
+      journal.hasOne(models.transaction);
+      journal.belongsTo(models.journal_type)
+      journal.belongsTo(models.stock_mutation)
+      journal.belongsTo(models.product)
     }
   }
-  Journal.init(
-    {
-      Stock_Before: DataTypes.INTEGER,
-      Stock_After: DataTypes.INTEGER,
-      Desc: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: "Journal",
-    }
-  );
-  return Journal;
+  journal.init({
+    stock_before: DataTypes.INTEGER,
+    stock_after: DataTypes.STRING,
+    desc: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'journal',
+  });
+  return journal;
 };

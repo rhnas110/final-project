@@ -1,10 +1,9 @@
-"use strict";
-const { Model } = require("sequelize");
-const journal = require("./journal");
-const product = require("./product");
-const warehouse = require("./warehouse");
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Stock_Mutation extends Model {
+  class stock_mutation extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,30 +11,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Stock_Mutation.belongsTo(warehouse, {
+      stock_mutation.belongsTo(models.warehouse, {
         as: "IdWarehouseFrom",
         foreignKey: "IdWarehouse",
       });
-      Stock_Mutation.belongsTo(warehouse, {
+      stock_mutation.belongsTo(models.warehouse, {
         as: "IdWarehouseTo",
         foreignKey: "IdWarehouse",
       });
-      Stock_Mutation.hasOne(journal, {
-        foreignKey: "IdStock_Mutation",
-      });
-      Stock_Mutation.belongsTo(product);
+      stock_mutation.hasOne(models.journal);
+      stock_mutation.belongsTo(models.product);
     }
   }
-  Stock_Mutation.init(
-    {
-      invoice: DataTypes.STRING,
-      quantity: DataTypes.INTEGER,
-      approval: DataTypes.BOOLEAN,
-    },
-    {
-      sequelize,
-      modelName: "Stock_Mutation",
-    }
-  );
-  return Stock_Mutation;
+  stock_mutation.init({
+    quantity: DataTypes.INTEGER,
+    approval: DataTypes.INTEGER,
+    invoice: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'stock_mutation',
+  });
+  return stock_mutation;
 };
