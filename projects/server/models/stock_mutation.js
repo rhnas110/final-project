@@ -1,8 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const journal = require("./journal");
-const product = require("./product");
-const warehouse = require("./warehouse");
 module.exports = (sequelize, DataTypes) => {
   class Stock_Mutation extends Model {
     /**
@@ -12,25 +9,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Stock_Mutation.belongsTo(warehouse, {
+      Stock_Mutation.belongsTo(models.Warehouse, {
         as: "IdWarehouseFrom",
         foreignKey: "IdWarehouse",
       });
-      Stock_Mutation.belongsTo(warehouse, {
+      Stock_Mutation.belongsTo(models.Warehouse, {
         as: "IdWarehouseTo",
         foreignKey: "IdWarehouse",
       });
-      Stock_Mutation.hasOne(journal, {
-        foreignKey: "IdStock_Mutation",
-      });
-      Stock_Mutation.belongsTo(product);
+      Stock_Mutation.hasOne(models.Journal);
+      Stock_Mutation.belongsTo(models.Product);
     }
   }
   Stock_Mutation.init(
     {
-      invoice: DataTypes.STRING,
       quantity: DataTypes.INTEGER,
-      approval: DataTypes.BOOLEAN,
+      approval: DataTypes.INTEGER,
+      invoice: DataTypes.STRING,
     },
     {
       sequelize,

@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const transactions = require('./transactions');
 module.exports = (sequelize, DataTypes) => {
   class Order_Status extends Model {
     /**
@@ -12,13 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Order_Status.hasOne(transactions, {
-        foreignKey: "IdOrder_Status"
-      })
+      Order_Status.hasOne(models.Transaction)
     }
   }
   Order_Status.init({
-    order_status: DataTypes.STRING,
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Order_Status',
