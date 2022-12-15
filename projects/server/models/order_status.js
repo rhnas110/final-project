@@ -1,0 +1,27 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
+const transactions = require('./transactions');
+module.exports = (sequelize, DataTypes) => {
+  class Order_Status extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      Order_Status.hasOne(transactions, {
+        foreignKey: "IdOrder_Status"
+      })
+    }
+  }
+  Order_Status.init({
+    order_status: DataTypes.STRING,
+  }, {
+    sequelize,
+    modelName: 'Order_Status',
+  });
+  return Order_Status;
+};
