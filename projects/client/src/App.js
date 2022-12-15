@@ -1,25 +1,40 @@
-import axios from "axios";
 import logo from "./logo.svg";
 import "./App.css";
+
+// route
+import { Routes, Route } from "react-router-dom";
+
+// pages
+import { DummyPage } from "./pages/DummyPage";
+import { NotFoundPage } from "./pages/NotFound/NotFound";
+
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState("");
+  const testApi = async () => {
+    try {
+      const response = await (
+        await axios.get(`${process.env.REACT_APP_API_BASE_URL}`)
+      ).data;
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/greetings`
-      );
-      setMessage(data?.message || "");
-    })();
+    testApi();
+    console.log("MOKOMDO HERE");
   }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {message}
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<DummyPage />} />
+
+        {/* not found  */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </div>
   );
 }

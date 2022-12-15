@@ -9,13 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // Stock_Mutation.belongsTo(models.Warehouse)
       Stock_Mutation.belongsTo(models.Warehouse, {
-        as: "IdWarehouseFrom",
-        foreignKey: "IdWarehouse",
-      });
-      Stock_Mutation.belongsTo(models.Warehouse, {
-        as: "IdWarehouseTo",
-        foreignKey: "IdWarehouse",
+        foreignKey: "IdWarehouseFrom",
       });
       Stock_Mutation.hasOne(models.Journal);
       Stock_Mutation.belongsTo(models.Product);
@@ -23,8 +19,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Stock_Mutation.init(
     {
+      IdWarehouseTo: DataTypes.INTEGER,
       quantity: DataTypes.INTEGER,
-      approval: DataTypes.INTEGER,
+      approval: DataTypes.BOOLEAN,
       invoice: DataTypes.STRING,
     },
     {
