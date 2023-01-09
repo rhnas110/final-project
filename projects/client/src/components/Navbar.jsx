@@ -58,8 +58,8 @@ export const NavbarComp = ({
       setSearchParams(`search_query=${valuesearch}`);
     }
   }
-  console.log(enter);
-  console.log(location);
+  // console.log(enter);
+  // console.log(location);
 
   // useEffect(() => {}, [user]);
   // bg={"#351734"}

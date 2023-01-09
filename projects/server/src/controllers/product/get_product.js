@@ -135,6 +135,20 @@ module.exports = {
   detailProduct: async (req, res) => {
     try {
       const response = await Product.findOne({
+        include: [
+          {
+            model: productImage,
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+            required: true,
+          },
+          {
+            model: productWarehouses,
+            as: "Details",
+            required: true,
+          },
+        ],
         where: {
           name: req.params.name,
         },

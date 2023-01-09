@@ -20,6 +20,7 @@ const baseApi = process.env.REACT_APP_API_BASE_URL;
 
 export const Product = ({ search, page, setPage, pmax, pmin }) => {
   const [product, setProduct] = useState([]);
+  const [totalStock, setTotalStock] = useState([]);
   const [limit, setLimit] = useState(12);
   const [offset, setOffset] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
@@ -48,6 +49,7 @@ export const Product = ({ search, page, setPage, pmax, pmin }) => {
     }
   };
 
+  console.log(product);
   const crossTitle = (str, num) => {
     if (str?.length > num) {
       return str.slice(0, num) + "...";
@@ -171,7 +173,7 @@ export const Product = ({ search, page, setPage, pmax, pmin }) => {
                     item.product_stocks === "0" ? "not-allowed" : "pointer"
                   }
                 >
-                  <Box
+                  {/* <Box
                     bgGradient={
                       (index + 1) % 2 === 0
                         ? "linear(to-r, rgba(74, 10, 74, .88) 16.61%, rgba(38, 8, 68, .88)  92.29%)"
@@ -187,7 +189,7 @@ export const Product = ({ search, page, setPage, pmax, pmin }) => {
                     visibility={item.product_stocks === "0" ? "hidden" : ""}
                   >
                     <Text>{item?.product_stocks}</Text>
-                  </Box>
+                  </Box> */}
                   <Box
                     bgColor={"rgba(141,141,141,.69)"}
                     width={"full"}
